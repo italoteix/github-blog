@@ -15,6 +15,7 @@ declare module 'styled-components' {
         800: '#071422'
         900: '#040F1A'
       }
+      brandBlue: '#3294F8'
     }
 
     fontSizes: {
