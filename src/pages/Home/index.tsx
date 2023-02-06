@@ -1,17 +1,28 @@
-import { useLoaderData } from 'react-router-dom'
+import { Form, useLoaderData } from 'react-router-dom'
 
-import { userApi } from '../../services/user'
+import { searchIssue } from '@/services/search'
+import { userApi } from '@/services/user'
+
 import { PostCard } from './partials/PostCard'
 import { ProfileCard, User } from './partials/ProfileCard'
 import { PostsContainer, PostsHeader, SearchInput } from './styles'
 
-export async function loader() {
-  const { data } = await userApi.get<User>('')
-  return { user: data }
+export async function loader({ request }: { request: Request }) {
+  const url = new URL(request.url)
+  const q = url.searchParams.get('q')
+
+  const [{ data: user }, { data: postsData }] = await Promise.all([
+    userApi.get<User>(''),
+    searchIssue(q || ''),
+  ])
+
+  return { user, postsTotal: postsData.total_count, posts: postsData.items }
 }
 
 export function Home() {
-  const { user } = useLoaderData() as Awaited<ReturnType<typeof loader>>
+  const { user, posts, postsTotal } = useLoaderData() as Awaited<
+    ReturnType<typeof loader>
+  >
 
   return (
     <div>
@@ -21,24 +32,31 @@ export function Home() {
         <PostsHeader>
           <div>
             <h2>Publicações</h2>
-            <span>6 publicações</span>
+            <span>
+              {postsTotal}
+              {` publicaç${postsTotal === 1 ? 'ão' : 'ões'}`}
+            </span>
           </div>
-          <form>
+          <Form id="search-form" role="search">
             <SearchInput
               type="search"
-              name=""
-              id=""
+              name="q"
+              id="search-input"
               placeholder="Buscar conteúdo"
+              aria-label="Buscar conteúdo"
             />
-          </form>
+          </Form>
         </PostsHeader>
 
-        <PostsContainer>
-          <PostCard />
-          <PostCard />
-          <PostCard />
-          <PostCard />
-        </PostsContainer>
+        {postsTotal > 0 ? (
+          <PostsContainer>
+            {posts.map((post) => (
+              <PostCard key={post.id} />
+            ))}
+          </PostsContainer>
+        ) : (
+          'No post found :('
+        )}
       </section>
     </div>
   )
