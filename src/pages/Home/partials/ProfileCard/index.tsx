@@ -5,41 +5,51 @@ import { ReactComponent as UserGroupIcon } from '@/assets/icons/user-group-solid
 
 import { Container, InfoContainer, InfoFooter, InfoHeader } from './styles'
 
-export function ProfileCard() {
+export interface User {
+  avatar_url: string
+  login: string
+  name: string
+  html_url: string
+  followers: number
+  company: string
+  bio: string
+}
+
+interface ProfileCardProps {
+  user: User
+}
+
+export function ProfileCard({ user }: ProfileCardProps) {
   return (
     <Container>
-      <img src="https://avatars.githubusercontent.com/u/45885054?v=4" alt="" />
+      <img src={user.avatar_url} alt="" />
 
       <InfoContainer>
         <InfoHeader>
-          <h1>Cameron Williamson</h1>
-          <a href="">
+          <h1>{user.name}</h1>
+          <a href={user.html_url} target="_blank" rel="noreferrer">
             github
             <LinkIcon />
           </a>
         </InfoHeader>
 
         <main>
-          <p>
-            Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu
-            viverra massa quam dignissim aenean malesuada suscipit. Nunc,
-            volutpat pulvinar vel mass.
-          </p>
+          <p>{user.bio}</p>
         </main>
 
         <InfoFooter>
           <ul>
             <li>
               <GithubIcon />
-              <span>cameronwll</span>
+              <span>{user.login}</span>
             </li>
             <li>
               <BuildingIcon />
-              <span>Rocketseat</span>
+              <span>{user.company}</span>
             </li>
             <li>
               <UserGroupIcon />
-              <span>32 seguidores</span>
+              <span>{user.followers} seguidores</span>
             </li>
           </ul>
         </InfoFooter>

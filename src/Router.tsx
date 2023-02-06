@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { DefaultLayout } from './layouts/Default'
-import { Home } from './pages/Home'
+import { Home, loader as homeLoader } from './pages/Home'
 import { Post } from './pages/Post'
 
 const router = createBrowserRouter([
@@ -12,6 +12,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+        loader: homeLoader,
       },
       {
         path: 'post/:id',
