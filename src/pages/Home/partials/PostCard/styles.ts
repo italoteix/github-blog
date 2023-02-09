@@ -4,7 +4,14 @@ export const Container = styled.li`
   background: ${(props) => props.theme.colors.bluishGray[600]};
 
   border-radius: 10px;
-  padding: 2rem;
+
+  a {
+    display: block;
+    padding: 2rem;
+
+    text-decoration: none;
+    color: inherit;
+  }
 `
 
 export const CardHeader = styled.header`
