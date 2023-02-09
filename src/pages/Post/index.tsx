@@ -1,35 +1,58 @@
+import ReactMarkdown from 'react-markdown'
+import { Link, useLoaderData, LoaderFunctionArgs } from 'react-router-dom'
+
 import { ReactComponent as LinkIcon } from '@/assets/icons/arrow-up-right-from-square-solid.svg'
 import { ReactComponent as CalendarIcon } from '@/assets/icons/calendar-day-solid.svg'
 import { ReactComponent as BackIcon } from '@/assets/icons/chevron-left-solid.svg'
 import { ReactComponent as CommentIcon } from '@/assets/icons/comment-solid.svg'
 import { ReactComponent as GithubIcon } from '@/assets/icons/github-brands.svg'
+import { getIssue } from '@/services/issues'
 
 import { Block, CardFooter, CardNav, HeaderCard } from './styles'
 
+interface PostData {
+  body: string
+  comments: number
+  created_at: string
+  html_url: string
+  id: number
+  title: string
+  user: {
+    login: string
+  }
+}
+
+export async function loader({ params }: LoaderFunctionArgs) {
+  const { data } = await getIssue(Number(params.id))
+  return data
+}
+
 export function Post() {
+  const post = useLoaderData() as PostData
+
   return (
     <div>
       <HeaderCard>
         <CardNav>
-          <a href="">
+          <Link to="..">
             <BackIcon />
             voltar
-          </a>
-          <a href="">
+          </Link>
+          <a href={post.html_url} target="_blank" rel="noreferrer">
             ver no github
             <LinkIcon />
           </a>
         </CardNav>
 
         <main>
-          <h1>JavaScript data types and data structures</h1>
+          <h1>{post.title}</h1>
         </main>
 
         <CardFooter>
           <ul>
             <li>
               <GithubIcon />
-              <span>cameronwll</span>
+              <span>{post.user.login}</span>
             </li>
             <li>
               <CalendarIcon />
@@ -37,7 +60,9 @@ export function Post() {
             </li>
             <li>
               <CommentIcon />
-              <span>5 comentários</span>
+              <span>
+                {post.comments} comentário{post.comments !== 1 && 's'}
+              </span>
             </li>
           </ul>
         </CardFooter>
@@ -45,15 +70,7 @@ export function Post() {
 
       <Block>
         <div>
-          Programming languages all have built-in data structures, but these
-          often differ from one language to another. This article attempts to
-          list the built-in data structures available in JavaScript and what
-          properties they have. These can be used to build other data
-          structures. Wherever possible, comparisons with other languages are
-          drawn. Dynamic typing JavaScript is a loosely typed and dynamic
-          language. Variables in JavaScript are not directly associated with any
-          particular value type, and any variable can be assigned (and
-          re-assigned) values of all types:
+          <ReactMarkdown>{post.body}</ReactMarkdown>
         </div>
       </Block>
     </div>

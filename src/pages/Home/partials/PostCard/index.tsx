@@ -4,6 +4,7 @@ import { CardHeader, Container } from './styles'
 interface PostCardProps {
   post: {
     id: number
+    number: number
     title: string
     created_at: string
     body: string
@@ -12,7 +13,7 @@ interface PostCardProps {
 export function PostCard({ post }: PostCardProps) {
   return (
     <Container>
-      <Link to={`/post/${post.id}`}>
+      <Link to={`/post/${post.number}`}>
         <CardHeader>
           <h3>{post.title}</h3>
           <span>Há 1 dia</span>

@@ -8,6 +8,7 @@ const searchApi = axios.create({
 
 interface Issues {
   id: number
+  number: number
   title: string
   created_at: string
   body: string
