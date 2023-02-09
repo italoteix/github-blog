@@ -90,4 +90,12 @@ export const CardFooter = styled.footer`
 
 export const Block = styled.main`
   padding: 2.5rem 2rem;
+
+  * {
+    line-height: 160%;
+  }
+
+  p {
+    margin-bottom: 0.5rem;
+  }
 `

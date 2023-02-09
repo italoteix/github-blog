@@ -12,6 +12,12 @@ export const Container = styled.li`
     text-decoration: none;
     color: inherit;
   }
+
+  main {
+    max-height: 11ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `
 
 export const CardHeader = styled.header`
