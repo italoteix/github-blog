@@ -7,6 +7,7 @@ import { ReactComponent as BackIcon } from '@/assets/icons/chevron-left-solid.sv
 import { ReactComponent as CommentIcon } from '@/assets/icons/comment-solid.svg'
 import { ReactComponent as GithubIcon } from '@/assets/icons/github-brands.svg'
 import { getIssue } from '@/services/issues'
+import { getRelativeTime } from '@/utils/formatter'
 
 import { Block, CardFooter, CardNav, HeaderCard } from './styles'
 
@@ -56,7 +57,7 @@ export function Post() {
             </li>
             <li>
               <CalendarIcon />
-              <span>Há 1 dia</span>
+              <span>{getRelativeTime(new Date(post.created_at))}</span>
             </li>
             <li>
               <CommentIcon />

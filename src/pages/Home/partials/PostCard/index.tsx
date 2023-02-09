@@ -1,4 +1,7 @@
 import { Link } from 'react-router-dom'
+
+import { getRelativeTime } from '@/utils/formatter'
+
 import { CardHeader, Container } from './styles'
 
 interface PostCardProps {
@@ -16,7 +19,7 @@ export function PostCard({ post }: PostCardProps) {
       <Link to={`/post/${post.number}`}>
         <CardHeader>
           <h3>{post.title}</h3>
-          <span>Há 1 dia</span>
+          <span>{getRelativeTime(new Date(post.created_at))}</span>
         </CardHeader>
         <main>{post.body}</main>
       </Link>
