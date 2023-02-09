@@ -48,6 +48,7 @@ export const PostsContainer = styled.ul`
   margin: 0;
 
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
   gap: 2rem;
 `
